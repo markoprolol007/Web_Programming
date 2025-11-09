@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Book Reservation - Welcome and choose a Book</title>
+    <style type="text/css">
+        body {
+            width: 800px;
+            margin: auto;
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            color: #333;
+        }
+        form {
+            margin-top: 20px;
+        }
+        .book-option {
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .book-option:hover {
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Welcome to our Book Reservation App</h1>
+</header>
+<main>
+    <form th:method="GET" th:action="@{/}">
+        <h4>Search Events</h4>
+        <label for="search">Search by name:
+            <input type="text" id="search" name="search" placeholder="Book Name">
+        </label>
+        <label for="rating">Search by rating:
+            <input type="number" id="rating" name="rating" step="0.1" min="0" max="10" placeholder="Rating">
+        </label>
+        <input type="submit" value="Search">
+        <a th:href="@{/}">Reset</a>
+    </form>
+    <form action="/bookReservation" method="POST">
+        <h2>Choose a book:</h2>
+        <!-- Display radio buttons for each book,
+             the value should be the book title
+             and the displayed text should be:
+             Title: <book_title>, Genre: <book_genre>, Rating: <average_rating> -->
+
+        <!--        <ul>-->
+        <!--            <li th:each="book: ${books}" th:text="-->
+        <!--            'Title: ' + ${book.title} +-->
+        <!--            ', Genre: ' + ${book.genre} +-->
+        <!--            ', Rating: ' + ${book.averageRating}"></li>-->
+        <!--        </ul>-->
+
+        <ul>
+            <li th:each="book: ${books}">
+                <label>
+                    <input type="radio" name="bookTitle" th:value="${book.title}" required>
+                    Title: <span th:text="${book.title}"></span>,
+                    Genre: <span th:text="${book.genre}"></span>,
+                    Rating: <span th:text="${book.averageRating}"></span>
+                </label>
+            </li>
+        </ul>
+
+        <h2>Enter your information:</h2>
+        <label>Your Name:</label>
+        <input type="text" name="readerName" required><br/>
+        <label>Your Address:</label>
+        <input type="text" name="readerAddress" required><br/>
+
+        <h2>Choose number of copies:</h2>
+        <input type="number" name="numCopies" min="1" max="10" required><br/>
+        <br/>
+        <!--        <input type="submit" value="Reserve Book">-->
+        <button type="submit" name="action" value="reserve">Reserve Book</button>
+        <button type="submit" name="action" value="seeReservations">See Reservations</button>
+    </form>
+</main>
+</body>
+</html>
