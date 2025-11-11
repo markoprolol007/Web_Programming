@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Book form</title>
+</head>
+<body>
+<h1 th:text="${book.id} != null ? 'Edit book' : 'Add book'"></h1>
+
+<form th:action="@{${book.id == null ? '/books/add' : '/books/edit/' + book.id}}" method="post">
+    <div>
+        <label>Title:</label>
+        <input type="text" name="title" th:value="${book != null} ? ${book.title} : ''" required/>
+    </div>
+    <div>
+        <label>Genre:</label>
+        <input type="text" name="genre" th:value="${book != null} ? ${book.genre} : ''" required/>
+    </div>
+    <div>
+        <label>Average Rating:</label>
+        <input type="number" step="0.1" min="0" max="10" name="averageRating" th:value="${book != null} ? ${book.averageRating} : ''"/>
+    </div>
+    <div>
+        <label>Author:</label>
+        <select name="authorId" required>
+            <option th:each="a : ${authors}"
+                    th:value="${a.id}"
+                    th:text="${a.name + ' ' + a.surname}"
+                    th:selected="${book.author != null} ? ${a.id} == ${book.author.id} : false">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <button type="submit" th:text="${book.id} != null ? 'Update' : 'Add'"></button>
+        <a href="/books">Cancel</a>
+    </div>
+</form>
+</body>
+</html>

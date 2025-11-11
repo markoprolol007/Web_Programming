@@ -31,7 +31,7 @@
     <h1>Welcome to our Book Reservation App</h1>
 </header>
 <main>
-    <form th:method="GET" th:action="@{/}">
+    <form method="GET" action="books">
         <h4>Search Events</h4>
         <label for="search">Search by name:
             <input type="text" id="search" name="search" placeholder="Book Name">
@@ -40,33 +40,59 @@
             <input type="number" id="rating" name="rating" step="0.1" min="0" max="10" placeholder="Rating">
         </label>
         <input type="submit" value="Search">
-        <a th:href="@{/}">Reset</a>
+        <a href="/books">Reset</a>
     </form>
-    <form action="/bookReservation" method="POST">
         <h2>Choose a book:</h2>
-        <!-- Display radio buttons for each book,
-             the value should be the book title
-             and the displayed text should be:
-             Title: <book_title>, Genre: <book_genre>, Rating: <average_rating> -->
-
-        <!--        <ul>-->
-        <!--            <li th:each="book: ${books}" th:text="-->
-        <!--            'Title: ' + ${book.title} +-->
-        <!--            ', Genre: ' + ${book.genre} +-->
-        <!--            ', Rating: ' + ${book.averageRating}"></li>-->
-        <!--        </ul>-->
-
-        <ul>
-            <li th:each="book: ${books}">
-                <label>
-                    <input type="radio" name="bookTitle" th:value="${book.title}" required>
-                    Title: <span th:text="${book.title}"></span>,
-                    Genre: <span th:text="${book.genre}"></span>,
-                    Rating: <span th:text="${book.averageRating}"></span>
-                </label>
-            </li>
-        </ul>
-
+        <div class="col-12" th:if="${books.size() > 0}">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">Select</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Genre</th>
+                        <th scope="col">Rating</th>
+                        <th scope="col">Author</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="book : ${books}" class="book">
+                        <td>
+<!--                            <input type="radio" name="bookTitle" th:value="${book.title}" required>-->
+                            <input type="radio" name="bookIdRadio" th:value="${book.id}"
+                                   onchange="updateSelectedBook(this)" required>
+                        </td>
+                        <td th:text="${book.title}"></td>
+                        <td th:text="${book.genre}"></td>
+                        <td th:text="${book.averageRating}"></td>
+                        <td th:text="${book.author.name} + ' ' + ${book.author.surname}"></td>
+                        <td class="text-right">
+                            <th:block>
+                                <form th:action="@{/books/delete/{id}(id=${book.id})}"
+                                      th:method="post" style="display: inline;">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-danger delete-product">
+                                        <i class="fa fa-trash">Delete</i>
+                                    </button>
+                                </form>
+                            </th:block>
+                            <th:block>
+                                <a th:href="@{/books/edit/{id}(id=${book.id})}"
+                                   class="btn btn-sm btn-info edit-product" style="display: inline;">
+                                    <i class="fa fa-trash">Edit</i>
+                                </a>
+                            </th:block>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    <p>
+        <a href="books/add">Add new book</a>
+    </p>
+    <form action="/books/bookReservation" method="POST">
+        <input type="hidden" name="bookId" id="selectedBookId">
         <h2>Enter your information:</h2>
         <label>Your Name:</label>
         <input type="text" name="readerName" required><br/>
@@ -76,10 +102,13 @@
         <h2>Choose number of copies:</h2>
         <input type="number" name="numCopies" min="1" max="10" required><br/>
         <br/>
-        <!--        <input type="submit" value="Reserve Book">-->
         <button type="submit" name="action" value="reserve">Reserve Book</button>
-        <button type="submit" name="action" value="seeReservations">See Reservations</button>
     </form>
+    <script>
+        function updateSelectedBook(radio) {
+            document.getElementById("selectedBookId").value = radio.value;
+        }
+    </script>
 </main>
 </body>
 </html>
