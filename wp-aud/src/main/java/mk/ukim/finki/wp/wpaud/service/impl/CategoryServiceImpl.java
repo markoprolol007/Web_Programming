@@ -1,7 +1,7 @@
 package mk.ukim.finki.wp.wpaud.service.impl;
 
 import mk.ukim.finki.wp.wpaud.model.Category;
-import mk.ukim.finki.wp.wpaud.repository.InMemoryCategoryRepository;
+import mk.ukim.finki.wp.wpaud.repository.impl.InMemoryCategoryRepositoryImpl;
 import mk.ukim.finki.wp.wpaud.service.CategoryService;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +10,9 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final InMemoryCategoryRepository categoryRepository;
+    private final InMemoryCategoryRepositoryImpl categoryRepository;
 
-    public CategoryServiceImpl(InMemoryCategoryRepository categoryRepository) {
+    public CategoryServiceImpl(InMemoryCategoryRepositoryImpl categoryRepository) {
         this.categoryRepository = categoryRepository;
     }
 

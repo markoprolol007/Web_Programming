@@ -2,6 +2,7 @@ package mk.ukim.finki.wp.wpaud.bootstrap;
 
 import jakarta.annotation.PostConstruct;
 import mk.ukim.finki.wp.wpaud.model.Category;
+import mk.ukim.finki.wp.wpaud.model.User;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ import java.util.Locale;
 public class DataHolder {
 
     public static List<Category> categories = null;
+    public static List<User> users = null;
 
     // On application startup, initialize the categories list
     // On each startup, the list will be initialized with the same values and the previous values will be lost
@@ -22,5 +24,12 @@ public class DataHolder {
 
         categories.add(new Category("Movies", "Movies category"));
         categories.add(new Category("Books", "Books category"));
+
+        users = new ArrayList<>();
+        users.add(new User("elena.atanasoska", "ea", "Elena", "Atanasoska"));
+        users.add(new User("darko.sasanski", "ds", "Darko", "Sasanski"));
+        users.add(new User("ana.todorovska", "at", "Ana", "Todorovska"));
+        users.add(new User("marko.poposki", "mp", "Marko", "Poposki"));
+
     }
 }
