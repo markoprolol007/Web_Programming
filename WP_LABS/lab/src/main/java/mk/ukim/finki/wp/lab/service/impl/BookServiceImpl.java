@@ -2,8 +2,8 @@ package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
-import mk.ukim.finki.wp.lab.repository.BookRepository;
-import mk.ukim.finki.wp.lab.repository.impl.InMemoryBookRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.BookRepository;
+import mk.ukim.finki.wp.lab.repository.mock.impl.InMemoryBookRepositoryImpl;
 import mk.ukim.finki.wp.lab.service.AuthorService;
 import mk.ukim.finki.wp.lab.service.BookService;
 import org.springframework.stereotype.Service;
@@ -14,10 +14,10 @@ import java.util.Optional;
 @Service
 public class BookServiceImpl implements BookService {
 
-    private final InMemoryBookRepository bookRepository;
+    private final BookRepository bookRepository;
     private final AuthorService authorService;
 
-    public BookServiceImpl(InMemoryBookRepository bookRepository, AuthorService authorService) {
+    public BookServiceImpl(BookRepository bookRepository, AuthorService authorService) {
         this.bookRepository = bookRepository;
         this.authorService = authorService;
     }
@@ -28,8 +28,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> searchBooks(String text, Double rating) {
-        return this.bookRepository.searchBooks(text, rating);
+    public List<Book> findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(String text, Double rating) {
+        return this.bookRepository.findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(text, rating);
+    }
+
+    public List<Book> findAllByAuthor_Id(Long authorId) {
+        return this.bookRepository.findAllByAuthor_Id(authorId);
     }
 
     @Override
@@ -39,9 +43,9 @@ public class BookServiceImpl implements BookService {
 
 
     @Override
-    public Book saveBook(String title, String genre, double rating, Long authorId, boolean like) {
+    public Book saveBook(String title, String genre, double rating, Long authorId) {
         Author author = authorService.findById(authorId);
-        Book book = new Book(title, genre, rating, author, like);
+        Book book = new Book(title, genre, rating, author);
         return bookRepository.save(book);
     }
 
@@ -63,6 +67,6 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public void likeBook(Long bookId) {
-        bookRepository.like(bookId);
+        bookRepository.likeBook(bookId);
     }
 }

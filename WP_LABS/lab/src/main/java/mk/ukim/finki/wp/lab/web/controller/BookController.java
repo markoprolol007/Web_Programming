@@ -1,5 +1,6 @@
 package mk.ukim.finki.wp.lab.web.controller;
 
+import mk.ukim.finki.wp.lab.model.Author;
 import mk.ukim.finki.wp.lab.model.Book;
 import mk.ukim.finki.wp.lab.service.AuthorService;
 import mk.ukim.finki.wp.lab.service.BookService;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Controller
-@RequestMapping("/books")
+@RequestMapping(path = {"/books", "/"})
 public class BookController {
 
     private final BookService bookService;
@@ -25,15 +26,22 @@ public class BookController {
     public String getBooksPage(@RequestParam(required = false) String error,
                                @RequestParam(required = false) String search,
                                @RequestParam(required = false) Double rating,
+                               @RequestParam(required = false) Long authorId,
                                Model model){
         if (error != null) {
             model.addAttribute("error", error);
         }
+        model.addAttribute("authors", authorService.findAll());
+        model.addAttribute("selectedAuthorId", authorId);
         List<Book> books;
-        if (search == null || search.isEmpty() || rating == null) {
+        if (authorId != null) {
+            books = bookService.findAllByAuthor_Id(authorId);
+        }
+        else if (search != null && !search.isEmpty() && rating != null) {
+            books = bookService.findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(search, rating);
+        }
+        else {
             books = bookService.listAll();
-        } else {
-            books = bookService.searchBooks(search, rating);
         }
         model.addAttribute("books", books);
         return "listBooks";
@@ -43,9 +51,8 @@ public class BookController {
     public String saveBook(@RequestParam String title,
                            @RequestParam String genre,
                            @RequestParam Double averageRating,
-                           @RequestParam Long authorId,
-                           @RequestParam boolean like){
-        bookService.saveBook(title, genre, averageRating, authorId, like);
+                           @RequestParam Long authorId){
+        bookService.saveBook(title, genre, averageRating, authorId);
         return "redirect:/books";
     }
 

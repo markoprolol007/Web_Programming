@@ -1,17 +1,16 @@
-package mk.ukim.finki.wp.lab.repository.impl;
+package mk.ukim.finki.wp.lab.repository.mock.impl;
 
 import mk.ukim.finki.wp.lab.bootstrap.DataHolder;
 import mk.ukim.finki.wp.lab.model.Book;
-import mk.ukim.finki.wp.lab.repository.BookRepository;
+import mk.ukim.finki.wp.lab.repository.mock.InMemoryBookRepository;
 import org.springframework.stereotype.Repository;
 
-import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Repository
-public class InMemoryBookRepository implements BookRepository {
+public class InMemoryBookRepositoryImpl implements InMemoryBookRepository {
     @Override
     public List<Book> findAll() {
         return DataHolder.books;
@@ -45,7 +44,7 @@ public class InMemoryBookRepository implements BookRepository {
     public void like(Long bookId) {
         Optional<Book> bookOpt = DataHolder.books.stream().filter(b -> b.getId().equals(bookId)).findFirst();
         bookOpt.ifPresent(book -> {
-            book.setLike(!book.isLike());
+            book.setLiked(!book.isLiked());
         });
     }
 }

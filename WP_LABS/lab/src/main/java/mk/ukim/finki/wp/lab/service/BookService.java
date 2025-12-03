@@ -9,8 +9,9 @@ import java.util.Optional;
 public interface BookService {
     List<Book> listAll();
     Optional<Book> findById(Long id);
-    List<Book> searchBooks(String text, Double rating);
-    Book saveBook(String title, String genre, double rating, Long authorId, boolean like);
+    List<Book> findAllByAuthor_Id(Long authorId);
+    List<Book> findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(String text, Double rating);
+    Book saveBook(String title, String genre, double rating, Long authorId);
     Book editBook(Long id, String title, String genre, Double averageRating, Long authorId);
     void deleteById(Long id);
     void likeBook(Long bookId);

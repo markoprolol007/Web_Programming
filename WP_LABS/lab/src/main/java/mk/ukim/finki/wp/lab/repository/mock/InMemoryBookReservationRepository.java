@@ -1,10 +1,10 @@
-package mk.ukim.finki.wp.lab.repository;
+package mk.ukim.finki.wp.lab.repository.mock;
 
 import mk.ukim.finki.wp.lab.model.BookReservation;
 
 import java.util.List;
 
-public interface BookReservationRepository {
+public interface InMemoryBookReservationRepository {
     BookReservation save(BookReservation reservation);
     List<BookReservation> findByBookTitle(String title);
 }

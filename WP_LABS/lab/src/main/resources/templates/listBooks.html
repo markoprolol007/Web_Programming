@@ -39,6 +39,15 @@
         <label for="rating">Search by rating:
             <input type="number" id="rating" name="rating" step="0.1" min="0" max="10" placeholder="Rating">
         </label>
+        <label>Author:</label>
+        <select name="authorId">
+            <option value="">-- Select Author --</option>
+            <option th:each="a : ${authors}"
+                    th:value="${a.id}"
+                    th:text="${a.name + ' ' + a.surname}"
+                    th:selected="${selectedAuthorId} == ${a.id}">>
+            </option>
+        </select>
         <input type="submit" value="Search">
         <a href="/books">Reset</a>
     </form>
@@ -68,7 +77,7 @@
                         <td th:text="${book.author.name} + ' ' + ${book.author.surname}"></td>
                         <td>
                             <form action='/books/like' method="get" style="display:inline;">
-                                <button type="submit" name="bookId" th:value="${book.id}" th:text="${book.like} ? 'Unlike' : 'Like'"></button>
+                                <button type="submit" name="bookId" th:value="${book.id}" th:text="${book.liked} ? 'Unlike' : 'Like'"></button>
                             </form>
                         </td>
                         <td class="text-right">

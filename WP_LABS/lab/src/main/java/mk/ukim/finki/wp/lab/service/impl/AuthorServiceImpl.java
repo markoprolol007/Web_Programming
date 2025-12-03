@@ -1,7 +1,8 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.Author;
-import mk.ukim.finki.wp.lab.repository.impl.InMemoryAuthorRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.AuthorRepository;
+import mk.ukim.finki.wp.lab.repository.mock.impl.InMemoryAuthorRepositoryImpl;
 import mk.ukim.finki.wp.lab.service.AuthorService;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.List;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    private final InMemoryAuthorRepository authorRepository;
+    private final AuthorRepository authorRepository;
 
-    public AuthorServiceImpl(InMemoryAuthorRepository authorRepository) {
+    public AuthorServiceImpl(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
     }
 

@@ -1,7 +1,8 @@
 package mk.ukim.finki.wp.lab.service.impl;
 
 import mk.ukim.finki.wp.lab.model.BookReservation;
-import mk.ukim.finki.wp.lab.repository.impl.InMemoryBookReservationRepository;
+import mk.ukim.finki.wp.lab.repository.jpa.BookReservationRepository;
+import mk.ukim.finki.wp.lab.repository.mock.impl.InMemoryBookReservationRepositoryImpl;
 import mk.ukim.finki.wp.lab.service.BookReservationService;
 import org.springframework.stereotype.Service;
 
@@ -10,9 +11,9 @@ import java.util.List;
 @Service
 public class BookReservationServiceImpl implements BookReservationService {
 
-    private final InMemoryBookReservationRepository bookReservationRepository;
+    private final BookReservationRepository bookReservationRepository;
 
-    public BookReservationServiceImpl(InMemoryBookReservationRepository bookReservationRepository) {
+    public BookReservationServiceImpl(BookReservationRepository bookReservationRepository) {
         this.bookReservationRepository = bookReservationRepository;
     }
 
