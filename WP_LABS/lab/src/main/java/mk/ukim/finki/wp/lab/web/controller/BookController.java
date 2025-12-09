@@ -37,11 +37,14 @@ public class BookController {
         if (authorId != null) {
             books = bookService.findAllByAuthor_Id(authorId);
         }
-        else if (search != null && !search.isEmpty() && rating != null) {
-            books = bookService.findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(search, rating);
+        else if (search != null && !search.isEmpty()) {
+            books = bookService.findAllByTitle(search);
+        }
+        else if (rating != null) {
+            books = bookService.findAllByAverageRating(rating);
         }
         else {
-            books = bookService.listAll();
+            books = bookService.sortAllByAuthor_surname();
         }
         model.addAttribute("books", books);
         return "listBooks";

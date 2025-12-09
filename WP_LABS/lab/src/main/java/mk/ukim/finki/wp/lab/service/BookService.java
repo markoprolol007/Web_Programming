@@ -10,7 +10,9 @@ public interface BookService {
     List<Book> listAll();
     Optional<Book> findById(Long id);
     List<Book> findAllByAuthor_Id(Long authorId);
-    List<Book> findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(String text, Double rating);
+    List<Book> findAllByTitle(String text);
+    List<Book> findAllByAverageRating(Double rating);
+    List<Book> sortAllByAuthor_surname();
     Book saveBook(String title, String genre, double rating, Long authorId);
     Book editBook(Long id, String title, String genre, Double averageRating, Long authorId);
     void deleteById(Long id);

@@ -13,8 +13,14 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(String text, Double rating);
-    List<Book> findAllByAuthor_Id(Long authorId);
+    List<Book> findAllByTitleContainingIgnoreCaseOrderByAuthor_SurnameAsc(String text);
+    List<Book> findAllByAverageRatingGreaterThanOrderByAuthor_SurnameAsc(Double rating);
+
+    List<Book> findAllByAuthor_IdOrderByAuthor_SurnameAsc(Long authorId);
+
+    @Query("SELECT b FROM Book b ORDER BY b.author.surname ASC")
+    List<Book> findAllSortedByAuthor_Surname();
+
     @Modifying
     @Transactional
     @Query("UPDATE Book b SET b.liked = CASE WHEN b.liked = true THEN false ELSE true END WHERE b.id = :id")

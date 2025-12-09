@@ -51,57 +51,57 @@
         <input type="submit" value="Search">
         <a href="/books">Reset</a>
     </form>
-        <h2>Choose a book:</h2>
-        <div class="col-12" th:if="${books.size() > 0}">
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col">Select</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Genre</th>
-                        <th scope="col">Rating</th>
-                        <th scope="col">Author</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="book : ${books}" class="book">
-                        <td>
-<!--                            <input type="radio" name="bookTitle" th:value="${book.title}" required>-->
-                            <input type="radio" name="bookIdRadio" th:value="${book.id}"
-                                   onchange="updateSelectedBook(this)" required>
-                        </td>
-                        <td th:text="${book.title}"></td>
-                        <td th:text="${book.genre}"></td>
-                        <td th:text="${book.averageRating}"></td>
-                        <td th:text="${book.author.name} + ' ' + ${book.author.surname}"></td>
-                        <td>
-                            <form action='/books/like' method="get" style="display:inline;">
-                                <button type="submit" name="bookId" th:value="${book.id}" th:text="${book.liked} ? 'Unlike' : 'Like'"></button>
+    <h2>Choose a book:</h2>
+    <div class="col-12" th:if="${books.size() > 0}">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Select</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Genre</th>
+                    <th scope="col">Rating</th>
+                    <th scope="col">Author</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="book : ${books}" class="book">
+                    <td>
+                        <!--                            <input type="radio" name="bookTitle" th:value="${book.title}" required>-->
+                        <input type="radio" name="bookIdRadio" th:value="${book.id}"
+                               onchange="updateSelectedBook(this)" required>
+                    </td>
+                    <td th:text="${book.title}"></td>
+                    <td th:text="${book.genre}"></td>
+                    <td th:text="${book.averageRating}"></td>
+                    <td th:text="${book.author.name} + ' ' + ${book.author.surname}"></td>
+                    <td>
+                        <form action='/books/like' method="get" style="display:inline;">
+                            <button type="submit" name="bookId" th:value="${book.id}" th:text="${book.liked} ? 'Unlike' : 'Like'"></button>
+                        </form>
+                    </td>
+                    <td class="text-right">
+                        <th:block>
+                            <form th:action="@{/books/delete/{id}(id=${book.id})}"
+                                  th:method="post" style="display: inline;">
+                                <button type="submit"
+                                        class="btn btn-sm btn-danger delete-product">
+                                    <i class="fa fa-trash">Delete</i>
+                                </button>
                             </form>
-                        </td>
-                        <td class="text-right">
-                            <th:block>
-                                <form th:action="@{/books/delete/{id}(id=${book.id})}"
-                                      th:method="post" style="display: inline;">
-                                    <button type="submit"
-                                            class="btn btn-sm btn-danger delete-product">
-                                        <i class="fa fa-trash">Delete</i>
-                                    </button>
-                                </form>
-                            </th:block>
-                            <th:block>
-                                <a th:href="@{/books/edit/{id}(id=${book.id})}"
-                                   class="btn btn-sm btn-info edit-product" style="display: inline;">
-                                    <i class="fa fa-trash">Edit</i>
-                                </a>
-                            </th:block>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+                        </th:block>
+                        <th:block>
+                            <a th:href="@{/books/edit/{id}(id=${book.id})}"
+                               class="btn btn-sm btn-info edit-product" style="display: inline;">
+                                <i class="fa fa-trash">Edit</i>
+                            </a>
+                        </th:block>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
+    </div>
     <p>
         <a href="books/add">Add new book</a>
     </p>

@@ -28,19 +28,29 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(String text, Double rating) {
-        return this.bookRepository.findAllByTitleContainingIgnoreCaseAndAverageRatingGreaterThanEqual(text, rating);
+    public List<Book> findAllByTitle(String text) {
+        return this.bookRepository.findAllByTitleContainingIgnoreCaseOrderByAuthor_SurnameAsc(text);
     }
 
+    @Override
+    public List<Book> findAllByAverageRating(Double rating) {
+        return this.bookRepository.findAllByAverageRatingGreaterThanOrderByAuthor_SurnameAsc(rating);
+    }
+
+    @Override
+    public List<Book> sortAllByAuthor_surname() {
+        return this.bookRepository.findAllSortedByAuthor_Surname();
+    }
+
+    @Override
     public List<Book> findAllByAuthor_Id(Long authorId) {
-        return this.bookRepository.findAllByAuthor_Id(authorId);
+        return this.bookRepository.findAllByAuthor_IdOrderByAuthor_SurnameAsc(authorId);
     }
 
     @Override
     public Optional<Book> findById(Long id) {
         return bookRepository.findById(id);
     }
-
 
     @Override
     public Book saveBook(String title, String genre, double rating, Long authorId) {
