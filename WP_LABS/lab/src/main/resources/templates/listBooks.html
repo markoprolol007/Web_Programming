@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="utf-8">
     <title>Book Reservation - Welcome and choose a Book</title>
@@ -31,6 +31,8 @@
     <h1>Welcome to our Book Reservation App</h1>
 </header>
 <main>
+    <a sec:authorize="isAnonymous()" href="/login">Login</a>
+    <a sec:authorize="isAuthenticated()" href="/logout">Logout</a>
     <form method="GET" action="books">
         <h4>Search Events</h4>
         <label for="search">Search by name:
@@ -83,6 +85,7 @@
                     <td class="text-right">
                         <th:block>
                             <form th:action="@{/books/delete/{id}(id=${book.id})}"
+                                  sec:authorize="hasRole('ADMIN')"
                                   th:method="post" style="display: inline;">
                                 <button type="submit"
                                         class="btn btn-sm btn-danger delete-product">
@@ -90,7 +93,7 @@
                                 </button>
                             </form>
                         </th:block>
-                        <th:block>
+                        <th:block sec:authorize="hasRole('ADMIN')">
                             <a th:href="@{/books/edit/{id}(id=${book.id})}"
                                class="btn btn-sm btn-info edit-product" style="display: inline;">
                                 <i class="fa fa-trash">Edit</i>
@@ -103,7 +106,7 @@
         </div>
     </div>
     <p>
-        <a href="books/add">Add new book</a>
+        <a sec:authorize="hasRole('ADMIN')" href="books/add">Add new book</a>
     </p>
     <form action="/books/bookReservation" method="POST">
         <input type="hidden" name="bookId" id="selectedBookId">
